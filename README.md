@@ -5,7 +5,6 @@ A Remita package that helps you accept/recieve payment in your flutter applicati
 ![](assets/inline_screenshot.png)
 
 
-
 ## Requirements
 
 1. Remita [API Keys](https://api.remita.net/#63394d54-96c1-4dd8-8255-51e9a55e16df)
