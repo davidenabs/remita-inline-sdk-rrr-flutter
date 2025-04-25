@@ -20,7 +20,8 @@ import 'package:remitta_flutter_inline/src/utils/utils.dart';
 ///
 class RemittaInLineView extends StatefulWidget implements RemittaWebView {
   final PaymentRequest paymentRequest;
-  final StreamController<ConsoleMessage> _streamController = StreamController<ConsoleMessage>();
+  final StreamController<ConsoleMessage> _streamController =
+      StreamController<ConsoleMessage>();
 
   RemittaInLineView({required this.paymentRequest, Key? key}) : super(key: key);
 
@@ -60,7 +61,8 @@ class _RemittaInLineViewState extends State<RemittaInLineView> {
 
     _isWebViewActive = true;
     return MaterialApp(
-      debugShowCheckedModeBanner: widget.paymentRequest.environment == RemittaEnvironment.demo,
+      debugShowCheckedModeBanner:
+          widget.paymentRequest.environment == RemittaEnvironment.demo,
       navigatorKey: navigatorKey,
       home: getContentView(context),
     );
@@ -110,13 +112,16 @@ class _RemittaInLineViewState extends State<RemittaInLineView> {
   InAppWebView getWebView() {
     return InAppWebView(
       key: _webViewKey,
-      initialUrlRequest: URLRequest(url: Uri.parse("about:blank")),
-      initialOptions: RemittaUtils.inAppBrowserOptions,
+      initialUrlRequest: URLRequest(url: WebUri("about:blank")),
+      initialSettings: RemittaUtils.inAppBrowserSettings,
+      // initialOptions: RemittaUtils.inAppBrowserOptions,
       onWebViewCreated: (InAppWebViewController controller) async {
         _webViewController = controller;
-        await _webViewController?.loadData(data: RemittaUtils.getHtmlTemplate(widget.paymentRequest));
+        await _webViewController?.loadData(
+            data: RemittaUtils.getHtmlTemplate(widget.paymentRequest));
       },
-      onConsoleMessage: (InAppWebViewController controller, ConsoleMessage consoleMessage) {
+      onConsoleMessage:
+          (InAppWebViewController controller, ConsoleMessage consoleMessage) {
         _webViewController?.stopLoading();
         widget._streamController.sink.add(consoleMessage);
         onPopScreen(context, consoleMessage);
@@ -132,7 +137,8 @@ class _RemittaInLineViewState extends State<RemittaInLineView> {
   /// The [ConsoleMessage] is received from remitta payment modal via inAppWebView.
   void onPopScreen(BuildContext context, ConsoleMessage console) {
     if (_isWebViewActive == true) {
-      if (console.message.contains('onClose') || console.message.contains('transactionId')) {
+      if (console.message.contains('onClose') ||
+          console.message.contains('transactionId')) {
         Navigator.pop(context, console);
         _isWebViewActive = false;
       }
