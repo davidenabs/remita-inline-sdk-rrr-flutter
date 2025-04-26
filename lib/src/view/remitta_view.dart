@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -39,6 +40,13 @@ class _RemittaInLineViewState extends State<RemittaInLineView> {
   late bool _isWebViewActive;
   late bool _isLoading;
 
+  InAppWebViewSettings settings = InAppWebViewSettings(
+      isInspectable: kDebugMode,
+      mediaPlaybackRequiresUserGesture: false,
+      allowsInlineMediaPlayback: true,
+      iframeAllow: "camera; microphone",
+      iframeAllowFullscreen: true);
+
   @override
   void initState() {
     _isWebViewActive = true;
@@ -60,14 +68,12 @@ class _RemittaInLineViewState extends State<RemittaInLineView> {
     ]);
 
     _isWebViewActive = true;
-    return _isWebViewActive ? getContentView(context) : const SizedBox.shrink();
-
-    // return MaterialApp(
-    //   debugShowCheckedModeBanner:
-    //       widget.paymentRequest.environment == RemittaEnvironment.demo,
-    //   navigatorKey: navigatorKey,
-    //   home: getContentView(context),
-    // );
+    return MaterialApp(
+      debugShowCheckedModeBanner:
+          widget.paymentRequest.environment == RemittaEnvironment.demo,
+      navigatorKey: navigatorKey,
+      home: getContentView(context),
+    );
   }
 
   Widget getContentView(BuildContext context) {
@@ -113,10 +119,10 @@ class _RemittaInLineViewState extends State<RemittaInLineView> {
 
   InAppWebView getWebView() {
     return InAppWebView(
-      key: UniqueKey(),
+      key: _webViewKey,
       initialUrlRequest: URLRequest(url: WebUri("about:blank")),
-      // initialSettings: RemittaUtils.inAppBrowserSettings,
-      initialOptions: RemittaUtils.inAppBrowserOptions,
+      initialSettings: settings,
+      // initialOptions: RemittaUtils.inAppBrowserOptions,
       onWebViewCreated: (InAppWebViewController controller) async {
         _webViewController = controller;
         await _webViewController?.loadData(
@@ -142,8 +148,7 @@ class _RemittaInLineViewState extends State<RemittaInLineView> {
       if (console.message.contains('onClose') ||
           console.message.contains('transactionId')) {
         Navigator.pop(context, console);
-        // _isWebViewActive = false;
-        setState(() => _isWebViewActive = false);
+        _isWebViewActive = false;
       }
     }
   }
