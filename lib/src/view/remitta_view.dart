@@ -60,12 +60,14 @@ class _RemittaInLineViewState extends State<RemittaInLineView> {
     ]);
 
     _isWebViewActive = true;
-    return MaterialApp(
-      debugShowCheckedModeBanner:
-          widget.paymentRequest.environment == RemittaEnvironment.demo,
-      navigatorKey: navigatorKey,
-      home: getContentView(context),
-    );
+    return _isWebViewActive ? getContentView(context) : const SizedBox.shrink();
+
+    // return MaterialApp(
+    //   debugShowCheckedModeBanner:
+    //       widget.paymentRequest.environment == RemittaEnvironment.demo,
+    //   navigatorKey: navigatorKey,
+    //   home: getContentView(context),
+    // );
   }
 
   Widget getContentView(BuildContext context) {
@@ -111,7 +113,7 @@ class _RemittaInLineViewState extends State<RemittaInLineView> {
 
   InAppWebView getWebView() {
     return InAppWebView(
-      key: _webViewKey,
+      key: UniqueKey(),
       initialUrlRequest: URLRequest(url: WebUri("about:blank")),
       initialSettings: RemittaUtils.inAppBrowserSettings,
       // initialOptions: RemittaUtils.inAppBrowserOptions,
@@ -140,7 +142,8 @@ class _RemittaInLineViewState extends State<RemittaInLineView> {
       if (console.message.contains('onClose') ||
           console.message.contains('transactionId')) {
         Navigator.pop(context, console);
-        _isWebViewActive = false;
+        // _isWebViewActive = false;
+        setState(() => _isWebViewActive = false);
       }
     }
   }
