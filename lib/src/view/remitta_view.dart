@@ -115,8 +115,8 @@ class _RemittaInLineViewState extends State<RemittaInLineView> {
     return InAppWebView(
       key: UniqueKey(),
       initialUrlRequest: URLRequest(url: WebUri("about:blank")),
-      initialSettings: RemittaUtils.inAppBrowserSettings,
-      // initialOptions: RemittaUtils.inAppBrowserOptions,
+      // initialSettings: RemittaUtils.inAppBrowserSettings,
+      initialOptions: RemittaUtils.inAppBrowserOptions,
       onWebViewCreated: (InAppWebViewController controller) async {
         _webViewController = controller;
         await _webViewController?.loadData(

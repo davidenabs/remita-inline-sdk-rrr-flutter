@@ -30,27 +30,27 @@ class RemittaUtils {
     allowsInlineMediaPlayback: true, // iOS-specific
   );
 
-  // static InAppWebViewGroupOptions inAppBrowserOptions = InAppWebViewGroupOptions(
-  //   crossPlatform: InAppWebViewOptions(
-  //     useShouldOverrideUrlLoading: true,
-  //     mediaPlaybackRequiresUserGesture: false,
-  //     allowFileAccessFromFileURLs: true,
-  //     allowUniversalAccessFromFileURLs: true,
-  //     contentBlockers: [],
-  //     javaScriptCanOpenWindowsAutomatically: true,
-  //     javaScriptEnabled: true,
-  //     preferredContentMode: UserPreferredContentMode.RECOMMENDED,
-  //     supportZoom: false,
-  //   ),
-  //   android: AndroidInAppWebViewOptions(
-  //     useHybridComposition: true,
-  //     allowContentAccess: true,
-  //     allowFileAccess: true,
-  //   ),
-  //   ios: IOSInAppWebViewOptions(
-  //     allowsInlineMediaPlayback: true,
-  //   ),
-  // );
+  static InAppWebViewGroupOptions inAppBrowserOptions = InAppWebViewGroupOptions(
+    crossPlatform: InAppWebViewOptions(
+      useShouldOverrideUrlLoading: true,
+      mediaPlaybackRequiresUserGesture: false,
+      allowFileAccessFromFileURLs: true,
+      allowUniversalAccessFromFileURLs: true,
+      contentBlockers: [],
+      javaScriptCanOpenWindowsAutomatically: true,
+      javaScriptEnabled: true,
+      preferredContentMode: UserPreferredContentMode.RECOMMENDED,
+      supportZoom: false,
+    ),
+    android: AndroidInAppWebViewOptions(
+      useHybridComposition: true,
+      allowContentAccess: true,
+      allowFileAccess: true,
+    ),
+    ios: IOSInAppWebViewOptions(
+      allowsInlineMediaPlayback: true,
+    ),
+  );
 
   static String getUrl(RemittaEnvironment remittaEnv) {
     return remittaEnv.getUrl();
